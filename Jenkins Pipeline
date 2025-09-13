@@ -1,0 +1,73 @@
+
+
+pipeline {
+    agent any
+
+    environment {
+        // Jenkins credentials IDs
+        DOCKER_HUB_CREDENTIALS = credentials('dockerhub-creds')
+        AWS_CREDENTIALS = credentials('aws-eks-credentials')
+
+        // DockerHub repo
+        DOCKER_HUB_REPO = "dvpsdevops/dvpsdevops"
+
+        // AWS & EKS
+        AWS_DEFAULT_REGION = "us-east-1"
+        CLUSTER_NAME = "eks-cluster"
+    }
+
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+                git branch: 'dev', url: 'https://github.com/phani-ch/devops-task.git'
+            }
+        }
+
+        stage('Build & Push Docker Image') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-creds',
+                                                      usernameVariable: 'DOCKER_USER',
+                                                      passwordVariable: 'DOCKER_PASS')]) {
+                        sh """
+                          echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                          docker build -t $DOCKER_HUB_REPO:${env.BUILD_NUMBER} .
+                          docker push $DOCKER_HUB_REPO:${env.BUILD_NUMBER}
+                        """
+                    }
+                }
+            }
+        }
+        stage('Deploy to EKS') {
+            steps {
+               script {
+                    withCredentials([usernamePassword(credentialsId: 'aws-eks-credentials', 
+                                        usernameVariable: 'AWS_ACCESS_KEY_ID', 
+                                        passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                        sh """
+                          echo "Deploying build number ${env.BUILD_NUMBER} with image ${DOCKER_HUB_REPO}:${env.BUILD_NUMBER}"
+
+                                          # Set AWS credentials
+                          export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+                          export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+                          export AWS_DEFAULT_REGION=us-east-1
+	                   
+                          # Update kubeconfig
+                          aws eks update-kubeconfig --name eks-cluster --region us-east-1
+	                   
+                          # Apply Kubernetes manifests (full path)
+                          kubectl apply -f ${WORKSPACE}/deployment.yaml
+	                   
+                          # Update deployment image
+                          kubectl set image deployment/myapp-deployment myapp-container=${DOCKER_HUB_REPO}:${env.BUILD_NUMBER} --record
+	                   
+                          # Wait for rollout to complete
+                          kubectl rollout status deployment/myapp-deployment
+                        """
+                    }
+                }
+            }
+        }
+    }
+}
