@@ -52,6 +52,7 @@ You will see the Swayatt logo displayed in your browser.
 ├── package-lock.json        # Dependency versions
 ├── logoswayatt.png          # Logo image file
 ├── README.md                # Project documentation
+├── WRITEUP.md               # Tools,services and challenges
 ├── .gitignore               # Ignores node_modules, logs, etc.
 ├── architecture             # architecture files
     └── Architecture.pdf     # Architecture diagram
