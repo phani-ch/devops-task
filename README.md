@@ -139,23 +139,23 @@ docker run -p 3000:3000 user_name/image_name:1
  ```
 # EKS Setup
 
-# 1) Create IAM Role for EKS with required policies:
-# - AmazonEKSClusterPolicy for cluster
-# - AmazonEKSWorkerNodePolicy, AmazonEC2ContainerRegistryReadOnly, AmazonEKS_CNI_Policy for nodes
-# (Create role via AWS Console or CLI and attach policies)
+### 1) Create IAM Role for EKS with required policies:
+- AmazonEKSClusterPolicy for cluster
+ - AmazonEKSWorkerNodePolicy, AmazonEC2ContainerRegistryReadOnly, AmazonEKS_CNI_Policy for nodes
+ (Create role via AWS Console or CLI and attach policies)
 
-# 2) Create dedicated VPC for EKS cluster using CloudFormation
+### 2) Create dedicated VPC for EKS cluster using CloudFormation
 aws cloudformation create-stack --stack-name eks-vpc-stack \
 --template-url https://amazon-eks.s3.us-west-2.amazonaws.com/cloudformation/2020-08-12/amazon-eks-vpc-private-subnets.yaml \
 --capabilities CAPABILITY_IAM
 
-# 3) Create EKS cluster using CloudFormation
-# (Use your own cluster template or CloudFormation stack)
+### 3) Create EKS cluster using CloudFormation
+ (Use your own cluster template or CloudFormation stack)
 
-# 4) Launch an EC2 instance
-# (Choose Ubuntu or preferred AMI with necessary access)
+4) Launch an EC2 instance
+ (Choose Ubuntu or preferred AMI with necessary access)
 
-# 5) Install AWS CLI on EC2 instance
+###5) Install AWS CLI on EC2 instance
  ```
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
@@ -163,17 +163,17 @@ sudo ./aws/install
 aws --version
  ```
 
-# 6) Configure AWS CLI
+###6) Configure AWS CLI
 aws configure
 # Enter AWS Access Key, Secret Key, Default Region (e.g., us-east-1), output format (json)
 
-# 7) Update kubeconfig to connect to EKS
+### 7) Update kubeconfig to connect to EKS
  ```
 aws eks update-kubeconfig --name eks-cluster --region us-east-1
 kubectl get nodes
  ```
 
-# CloudWatch Monitoring Setup
+### CloudWatch Monitoring Setup
  ```
 wget https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb && sudo dpkg -i -E ./amazon-cloudwatch-agent.deb && sudo tee /opt/aws/amazon-cloudwatch-agent/bin/config.json > /dev/null <<'EOL'
 {
