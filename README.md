@@ -152,10 +152,10 @@ aws cloudformation create-stack --stack-name eks-vpc-stack \
 ### 3) Create EKS cluster using CloudFormation
  (Use your own cluster template or CloudFormation stack)
 
-4) Launch an EC2 instance
+### 4) Launch an EC2 instance
  (Choose Ubuntu or preferred AMI with necessary access)
 
-###5) Install AWS CLI on EC2 instance
+### 5) Install AWS CLI on EC2 instance
  ```
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
@@ -163,7 +163,7 @@ sudo ./aws/install
 aws --version
  ```
 
-###6) Configure AWS CLI
+### 6) Configure AWS CLI
 aws configure
 # Enter AWS Access Key, Secret Key, Default Region (e.g., us-east-1), output format (json)
 
