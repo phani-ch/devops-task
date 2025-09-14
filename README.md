@@ -49,7 +49,7 @@ You will see the Swayatt logo displayed in your browser.
 ```
 ├── app.js                   # Main server file
 ├── package.json             # Project dependencies and scripts
-├── package-lock.json            # Dependency versions
+├── package-lock.json        # Dependency versions
 ├── logoswayatt.png          # Logo image file
 ├── README.md                # Project documentation
 ├── .gitignore               # Ignores node_modules, logs, etc.
