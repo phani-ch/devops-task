@@ -80,7 +80,6 @@ This pipeline automates the following tasks:
 - Build Docker image
 - Push Docker image to Docker Hub
 - Deploy the application to Amazon EKS cluster
-```
 # Setup Guide
 ## Required Tools
 
