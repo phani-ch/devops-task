@@ -136,7 +136,7 @@ docker run hello-world
 # Build and run Docker image locally (optional)
 docker build -t user_name/image_name:1 .
 docker run -p 3000:3000 user_name/image_name:1
-
+ ```
 # EKS Setup
 
 # 1) Create IAM Role for EKS with required policies:
@@ -156,25 +156,25 @@ aws cloudformation create-stack --stack-name eks-vpc-stack \
 # (Choose Ubuntu or preferred AMI with necessary access)
 
 # 5) Install AWS CLI on EC2 instance
+ ```
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
 sudo ./aws/install
 aws --version
+ ```
 
 # 6) Configure AWS CLI
 aws configure
 # Enter AWS Access Key, Secret Key, Default Region (e.g., us-east-1), output format (json)
 
 # 7) Update kubeconfig to connect to EKS
+ ```
 aws eks update-kubeconfig --name eks-cluster --region us-east-1
 kubectl get nodes
-
-
-
-
+ ```
 
 # CloudWatch Monitoring Setup
-
+ ```
 wget https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb && sudo dpkg -i -E ./amazon-cloudwatch-agent.deb && sudo tee /opt/aws/amazon-cloudwatch-agent/bin/config.json > /dev/null <<'EOL'
 {
   "agent": {
@@ -213,8 +213,9 @@ wget https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-
   }
 }
 EOL
-
+ ```
 # Start CloudWatch Agent and verify
+ ```
 sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json -s && /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a status
 
-
+ ```
