@@ -219,3 +219,68 @@ EOL
 sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json -s && /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a status
 
  ```
+# Deployment Guide
+
+This guide explains how to deploy the Dockerized application to an Amazon EKS cluster using Jenkins.
+
+---
+
+## Prerequisites
+- Jenkins setup with pipeline configured
+- Docker image pushed to Docker Hub
+- AWS CLI installed and configured
+- `kubectl` installed and configured
+- EKS cluster running
+- Deployment YAML files (`deployment.yaml` and `service.yaml`) present in repository
+
+---
+
+## Jenkins Pipeline Deployment
+
+1. **Access Jenkins**  
+   Open Jenkins web interface at `http://<server-ip>:8080`.
+
+2. **Pipeline Job Setup**
+   - Job type: Pipeline from SCM → Git
+   - Repository URL: `https://github.com/phani-ch/devops-task.git`
+   - Branch: `dev`
+   - Add credentials:
+     - Docker Hub: `dockerhub-creds`
+     - AWS IAM: `aws-eks-credentials`
+
+3. **Pipeline Script (Jenkinsfile)**
+   Your Jenkinsfile should automate the following steps:
+   - Clone repository
+   - Build Docker image
+   - Push image to Docker Hub
+   - Deploy application to EKS using `kubectl apply -f deployment.yaml`
+
+4. **Trigger Deployment**
+   - Run the Jenkins pipeline manually or via webhook
+   - Monitor the stages: Clone → Build → Push → Deploy
+
+---
+
+## Manual Deployment 
+
+If you prefer manual deployment:
+
+```bash
+# Pull latest repository changes
+git clone -b dev https://github.com/phani-ch/devops-task.git
+cd devops-task
+
+# Build Docker image
+docker build -t user_name/image_name:1 .
+
+# Push Docker image to Docker Hub
+docker login -u user_name -p your_password
+docker push user_name/image_name:1
+
+# Deploy to EKS
+kubectl apply -f deployment.yaml
+
+# Verify deployment
+kubectl get pods
+kubectl get svc
+kubectl logs <pod-name>
