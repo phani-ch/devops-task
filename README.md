@@ -47,10 +47,20 @@ You will see the Swayatt logo displayed in your browser.
 ## Project Structure
 
 ```
-├── app.js              # Main server file
-├── package.json        # Project dependencies and scripts
-├── logoswayatt.png     # Logo image file
-└── README.md          # This file
+├── app.js                   # Main server file
+├── package.json             # Project dependencies and scripts
+├── package-lock.json            # Dependency versions
+├── logoswayatt.png          # Logo image file
+├── README.md                # Project documentation
+├── .gitignore               # Ignores node_modules, logs, etc.
+├── Jenkinsfile              # Jenkins pipeline definition
+├── Dockerfile               # Docker configuration
+├── deployment.yaml          # EKS Deployment and Service
+├── cloudformation_templete  # CloudFormation templates
+├──deployment-proof/         # Deployment evidence
+   ├── deployment-proof-1.png                    # deployment screenshot 2
+   ├── deployment-proof-2.png                    # deployment screenshot 2
+   └──deployment-proof-jenkins-stages.mp4        # Video demo
 ```
 
 ## Technical Details
