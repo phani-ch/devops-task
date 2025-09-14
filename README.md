@@ -165,7 +165,7 @@ aws --version
 
 ### 6) Configure AWS CLI
 aws configure
-# Enter AWS Access Key, Secret Key, Default Region (e.g., us-east-1), output format (json)
+### Enter AWS Access Key, Secret Key, Default Region (e.g., us-east-1), output format (json)
 
 ### 7) Update kubeconfig to connect to EKS
  ```
@@ -214,7 +214,7 @@ wget https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-
 }
 EOL
  ```
-# Start CloudWatch Agent and verify
+### Start CloudWatch Agent and verify
  ```
 sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json -s && /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a status
 
