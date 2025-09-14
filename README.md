@@ -53,6 +53,8 @@ You will see the Swayatt logo displayed in your browser.
 ├── logoswayatt.png          # Logo image file
 ├── README.md                # Project documentation
 ├── .gitignore               # Ignores node_modules, logs, etc.
+├── architecture             # architecture files
+    └── Architecture.pdf     # Architecture diagram
 ├── Jenkinsfile              # Jenkins pipeline definition
 ├── Dockerfile               # Docker configuration
 ├── deployment.yaml          # EKS Deployment and Service
